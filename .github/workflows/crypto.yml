@@ -1,0 +1,76 @@
+name: Update Crypto Prices
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/5 * * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Get Crypto Prices
+        run: |
+          python3 <<'PY'
+          import json
+          import urllib.request
+          from datetime import datetime, timezone
+
+          symbols = {
+              "BTC": "BTCUSDT",
+              "ETH": "ETHUSDT",
+              "SOL": "SOLUSDT",
+              "BNB": "BNBUSDT",
+              "XRP": "XRPUSDT",
+              "DOGE": "DOGEUSDT",
+              "ADA": "ADAUSDT"
+          }
+
+          result = {
+              "source": "Binance",
+              "updated_at": datetime.now(timezone.utc).isoformat(),
+              "assets": {}
+          }
+
+          for name, symbol in symbols.items():
+              url = f"https://data-api.binance.vision/api/v3/ticker/24hr?symbol={symbol}"
+
+              req = urllib.request.Request(
+                  url,
+                  headers={"User-Agent": "Nerkhjoo/1.0"}
+              )
+
+              with urllib.request.urlopen(req, timeout=20) as response:
+                  data = json.load(response)
+
+              result["assets"][name] = {
+                  "price": float(data["lastPrice"]),
+                  "change_24h": float(data["priceChangePercent"])
+              }
+
+          with open("latest.json", "w") as f:
+              json.dump(result, f, indent=2)
+
+          print(json.dumps(result, indent=2))
+          PY
+
+      - name: Save Prices
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add latest.json
+
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+
+          git commit -m "Update crypto prices"
+          git push
