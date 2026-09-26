@@ -1,34 +1,34 @@
 {
   "source": "Binance",
-  "updated_at": "2026-09-26T06:25:57.586055+00:00",
+  "updated_at": "2026-09-26T06:47:13.678608+00:00",
   "assets": {
     "BTC": {
-      "price": 83925.08,
-      "change_24h": -0.293
+      "price": 83916.0,
+      "change_24h": -0.159
     },
     "ETH": {
-      "price": 2685.55,
-      "change_24h": 0.233
+      "price": 2685.23,
+      "change_24h": 0.376
     },
     "SOL": {
-      "price": 120.34,
-      "change_24h": 3.261
+      "price": 120.38,
+      "change_24h": 3.526
     },
     "BNB": {
-      "price": 772.41,
-      "change_24h": -0.339
+      "price": 772.48,
+      "change_24h": -0.115
     },
     "XRP": {
-      "price": 1.5487,
-      "change_24h": 1.202
+      "price": 1.5486,
+      "change_24h": 1.229
     },
     "DOGE": {
-      "price": 0.09742,
-      "change_24h": 2.396
+      "price": 0.09748,
+      "change_24h": 2.708
     },
     "ADA": {
-      "price": 0.2544,
-      "change_24h": 2.415
+      "price": 0.2546,
+      "change_24h": 2.994
     }
   }
 }
